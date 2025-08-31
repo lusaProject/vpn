@@ -1,5 +1,5 @@
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
-----------------------------------------------------------------------------------------------------------------
+
 {
   "inbounds": [
     {
@@ -23,7 +23,7 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
     }
   ]
 }
-----------------------------------------------------------------------------------------------------------------
+
 location /login { 
         if ($http_upgrade != "websocket") { 
             return 404;
@@ -38,7 +38,7 @@ location /login {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   }
-----------------------------------------------------------------------------------------------------------------
+
 {
     "inbounds": [
         {
