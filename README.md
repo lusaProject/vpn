@@ -5,8 +5,6 @@ Nginx 配置示例
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 ```
 
----
-
 2. V2Ray 配置（WebSocket 方式）
 
 文件路径：`/usr/local/etc/v2ray/config.json`
@@ -43,8 +41,6 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 }
 ```
 
----
-
 3. Nginx 配置
 
 文件路径：`/etc/nginx/conf.d/v2ray.conf`
@@ -65,16 +61,12 @@ location /login {
 }
 ```
 
----
-
 4. 加速服务
 
 ```bash
 wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 lsmod | grep bbr    出现 tcp_bbr 加速成功
 ```
-
----
 
 5. 客户端软件
 
