@@ -1,4 +1,4 @@
-Nginx 配置示例
+  Nginx 配置示例
 
 1. 安装 V2Ray
 ```bash
@@ -60,8 +60,6 @@ location /login {
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
     proxy_set_header Host $host;
-
-    # 显示真实 IP 到 V2Ray access.log
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
