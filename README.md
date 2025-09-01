@@ -1,13 +1,13 @@
-# Nginx 配置示例
+Nginx 配置示例
 
-## 1. 安装 V2Ray
+1. 安装 V2Ray
 ```bash
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 ```
 
 ---
 
-## 2. V2Ray 配置（WebSocket 方式）
+2. V2Ray 配置（WebSocket 方式）
 
 文件路径：`/usr/local/etc/v2ray/config.json`
 
@@ -45,7 +45,7 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 
 ---
 
-## 3. Nginx 配置
+3. Nginx 配置
 
 文件路径：`/etc/nginx/conf.d/v2ray.conf`
 
@@ -69,7 +69,7 @@ location /login {
 
 ---
 
-## 4. 重启服务
+4. 重启服务
 
 ```bash
 systemctl restart v2ray
