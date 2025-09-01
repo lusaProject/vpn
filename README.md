@@ -67,9 +67,9 @@ location /login {
 
 ---
 
-4. 重启服务
+4. 加速服务
 
 ```bash
-systemctl restart v2ray
-systemctl restart nginx
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+lsmod | grep bbr    出现 tcp_bbr 加速成功
 ```
