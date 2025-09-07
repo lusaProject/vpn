@@ -1,0 +1,329 @@
+requirepass "xxx"
+bind 0.0.0.0
+sudo systemctl restart redis
+
+设置时区
+timedatectl list-timezones | grep Shanghai
+timedatectl set-timezone Asia/Shanghai
+
+扩展EBS卷的文件系统
+sudo lsblk
+sudo growpart /dev/nvme0n1 1
+sudo resize2fs /dev/nvme0n1p1
+
+Linux版本查看
+cat /proc/version
+sudo nginx -s reload
+sudo service nginx restart
+chmod 755 -R /root/
+
+网络中继
+sudo apt install coturn
+sudo apt purge coturn
+sudo nohup turnserver ‐L 0.0.0.0 ‐a ‐u mason:123456 ‐v ‐f ‐r nort.gov &
+sudo nohup turnserver ‐L 0.0.0.0 ‐a ‐u mason:123456 ‐v ‐f ‐r nort.gov -X 5.2.1.9/172.31.12.185 &
+
+测试指定端口开放
+nc -zv 5.2.1.9 3478
+Connection to 5.2.1.9 3478 port [tcp/*] succeeded!
+
+深度链接
+https://luffa.putdev.com/apple-app-site-association
+https://luffa.putdev.com/.well-known/assetlinks.json
+
+go编译库
+go build -o  ./libs/offline.so -buildmode=c-shared main.go
+gcc main.c offline.so -Wl,-rpath=./
+
+mysql操作
+sudo apt install mysql-server
+sudo systemctl status mysql
+mysql -u root -p
+CREATE DATABASE rtc_room_server;
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON rtc_room_server.* TO 'new_user'@'localhost';
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'xxx';
+mysql> UNINSTALL COMPONENT 'file://component_validate_password';
+SOURCE /root/roomserver/bin/rtc_room_server.sql
+
+android-ndk编译
+export ANDROID_NDK_HOME=/home/lusa/Android/android-ndk-r22
+export PATH=$ANDROID_NDK_HOME:$PATH
+cmake ..  -DANDROID_NDK=/home/lusa/Android/android-ndk-r22  -DANDROID_ABI=armeabi-v7a -DCMAKE_TOOLCHAIN_FILE=/home/lusa/Android/android-ndk-r22/build/cmake/android.toolchain.cmake
+cmake ..  -DANDROID_NDK=/home/lusa/Android/android-ndk-r22  -DANDROID_ABI=arm64-v8a -DCMAKE_TOOLCHAIN_FILE=/home/lusa/Android/android-ndk-r22/build/cmake/android.toolchain.cmake
+libsnappy.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=9424383d4ad0c3e2dcca75f9a0e534c9690c2899, with debug_info, not stripped
+libsnappy.so: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, BuildID[sha1]=9e3b5846d48d42049f5174c17818c787a766648a, with debug_info, not stripped
+__android_log_print(ANDROID_LOG_INFO, "BitmapInfo", "Width: %d", width);
+
+nginx证书安装
+sudo apt-get install certbot python3-certbot-nginx
+sudo certbot --nginx
+sudo certbot renew --dry-run
+sudo certbot certificates
+
+定时任务
+crontab -e
+0 0 * * * cp -rf /var/lib/redis/dump.rdb /etc/redis/
+cp dump.rdb /var/lib/redis
+crontab -l
+
+编解码
+gcc cmdutils.c ffmpeg.c ffmpeg_opt.c ffmpeg_filter.c ffmpeg_hw.c -lavcodec -lavformat -lswscale -lavutil -lswresample -lavfilter -lavdevice -lz -lm
+./configure  --prefix=${PWD}/build --enable-static --disable-shared --disable-ffplay --disable-doc --disable-debug --disable-optimizations --enable-small
+./ffmpeg -i  sample.mp4 -f mp4 -preset ultrafast -crf 26 -vf "scale=iw/2:ih/2" -r 30 output.mp4 -y
+
+gcc main.c -L./lib -I./include  -lavformat -lavcodec -lavfilter -lswscale -lswresample -lavutil  -lz -lm
+./configure  --prefix=${PWD}/build --enable-static --disable-shared --disable-ffplay --disable-doc --disable-debug --disable-optimizations --enable-small
+sudo apt install libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libswresample-dev libavfilter-dev libavdevice-dev
+sudo apt remove libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libswresample-dev libavfilter-dev libavdevice-dev
+gcc main.c  -lavcodec -lavformat -lswscale -lavutil -lswresample -lavfilter -lavdevice
+
+ffmpeg -i 1280x720.flv -c:v libx264 -preset slow -b:v 5M output.mp4
+ffmpeg -i 1280x720.flv -c:v h264_nvenc -preset slow -b:v 5M output.mp4
+ffmpeg -hwaccel cuda -i 1280x720.flv -f flv -preset slow -b:v 5M output.mp4
+ffmpeg -hwaccel cuda -i 1280x720.flv -c:v h264_nvenc -preset slow -b:v 5M output.mp4
+
+
+ffmpeg -loop 1 -i image.png -vf "zoompan=z='min(zoom+0.0005,1.5)':d=125" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "fade=t=in:st=0:d=5,fade=t=out:st=5:d=5" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "rotate='PI/4*(t/10)':ow=iw*sqrt(2):oh=ih*sqrt(2)" -t 10 -r 30 -c:v libx264 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "zoompan='1.5':x='if(lte(on,-1),(iw-iw/zoom)/2,x+3)':y='if(lte(on,1),(ih-ih/zoom)/2,y)':d=150" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "zoompan='1.5':x='if(lte(on,1),(iw/zoom)/2,x-3)':y='if(lte(on,1),(ih-ih/zoom)/2,y)':d=150" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "zoompan='1.5':x='if(lte(on,1),(iw-iw/zoom)/2,x)':y='if(lte(on,-1),(ih-ih/zoom)/2,y+2)':d=150" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -loop 1 -i image.png -vf "zoompan='1.5':x='if(lte(on,1),(iw-iw/zoom)/2,x)':y='if(lte(on,1),(ih/zoom)/2,y-2)':d=150" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
+
+ffmpeg -i input.png -vf "scale=iw/2:ih/2" output.png
+ffmpeg -i input.jpg -vf "boxblur=10:2" output.jpg
+ffmpeg -i input.jpg -vf "scale=640:-1" -qscale 30 output.jpg
+ffmpeg -i input.mp4 -vf "transpose=1" -vframes 1 output.jpg
+gcc opus.c  -lavcodec -lavformat -lswscale -lavutil -lswresample -lavfilter -lavdevice
+./configure  --prefix=${PWD}/build --disable-static --enable-shared --disable-ffplay --disable-doc --disable-debug --disable-optimizations --enable-small --enable-pthreads --enable-avx2
+gcc cmdutils.c ffmpeg.c ffmpeg_opt.c ffmpeg_filter.c ffmpeg_hw.c -L./lib -I./include -I./ -lavcodec -lavformat -lswscale -lavutil -lswresample -lavfilter -lavdevice -lz -lm
+
+ffmpeg -re -i 1280x720.flv -c copy -f flv rtmp://54.241.149.95/live/livestream
+rtmp://54.241.149.95/live/livestream
+ffprobe -show_format rtmp://50.18.65.41/live/livestream
+ffprobe -show_streams rtmp://50.18.65.41/live/livestream
+ffprobe -show_packets rtmp://50.18.65.41/live/livestream
+ffprobe -show_frames rtmp://50.18.65.41/live/livestream
+ffmpeg -i https://50.18.65.41:8098/live/livestream.flv -c copy output.flv
+ffmpeg -re -stream_loop -1 -i "1280x720.flv" -vcodec h264 -acodec aac -f rtsp -rtsp_transport tcp rtsp://50.18.65.41/live/test
+ffmpeg -re -stream_loop -1 -i "1280x720.flv" -vcodec h264 -acodec aac -f rtp_mpegts rtp://50.18.65.41:10000
+ffplay -rtsp_transport tcp rtsp://50.18.65.41/live/test
+ffplay -rtsp_transport udp rtsp://50.18.65.41/live/test
+ffplay rtmp://50.18.65.41/live/test
+ffplay ts://50.18.65.41/live/test
+ffprobe -show_frames -show_format -select_streams v:0 -of json 1280x720.flv
+ffprobe -show_frames -show_format -select_streams a:0 -of json 1280x720.flv
+ffmpeg -i 1280x720.flv -vf showinfo -f null -
+ffplay -rtsp_transport tcp rtsp://50.18.65.41/record/live/test/2024-08-21/16-25-36-0.mp4
+
+ffmpeg -i rtmp://192.168.50.203:1935/live/avc_720p -c copy -f flv rtmp://demo1.boschtech.cn/live/avc_720p
+ffmpeg -f gdigrab -i desktop -rtbufsize 2048M -framerate 30 -pixel_format yuv420p -vcodec libx264 -s 1280x720 -g 60 -keyint_min 60 -sc_threshold 0 -f flv rtmp://18.162.153.201/live/livestreamMason
+
+
+编码信息
+ffprobe INPUT：这是最基本的命令，用于查看媒体文件的基本信息，如格式、时长、码率等。
+
+ffprobe -show_format INPUT：用于查看文件格式、时长、码率等更详细的信息。
+
+ffprobe -show_streams INPUT：这是最常用的命令之一，用于查看视频流、音频流的信息，包括编码器、帧率、采样率、宽高、像素格式、采样格式、码率、时长、总帧率等。
+
+ffprobe -show_frames INPUT：用于查看媒体文件中的帧信息，包括帧类型、时间戳、大小等。
+
+ffprobe -show_packets INPUT：用于查看媒体文件中的数据包信息，包括数据包类型、大小、时间戳等。
+
+视频压缩
+ffmpeg -i img_5321.MOV -f mp4 -preset ultrafast -crf 26 -vf scale=iw/2:ih/2 -r 30 output.mp4 -y
+ffmpeg -i sample.mp4 -f mp4 -preset veryslow -crf 23 -vf scale=480:360 output.mp4 -y
+
+Jan. 一月，Feb. 二月，Mar. 三月，Apr. 四月，May 五月，Jun. 六月，Jul. 七月，Aug. 八月，Sep. 九月，Oct. 十月，Nov. 十一月，Dec. 十二月
+
+混淆加密
+npm install --save-dev webpack webpack-cli html-webpack-plugin
+npm install --save-dev webpack-obfuscator
+npm install --save-dev html-loader
+npm install --save-dev html-minifier
+npx webpack --config webpack.config.js
+
+android配置
+distributionUrl=https\://services.gradle.org/distributions/gradle-7.2-bin.zip
+classpath 'com.android.tools.build:gradle:4.1.3'
+classpath 'com.android.tools.build:gradle:7.0.3'
+compileSdkVersion 30
+buildToolsVersion "30.0.3"
+
+Build, Execution, Deployment>Build Tools>Gradle > jdk11.5
+
+(*env)->GetStringUTFChars(env, message, 0)改为这种 env->GetStringUTFChars(message, nullptr);
+
+go编译android
+go install golang.org/x/mobile/cmd/gomobile@latest
+gomobile init
+gomobile bind -target=android -o mylib.aar mylib.go
+C:\Program Files\Java\jdk-17
+javac -version
+
+Janus服务器搭建
+sudo apt install ifstat
+sudo apt install rename
+rename 's/.sample$//' *.sample
+
+sudo apt install libmicrohttpd-dev libjansson-dev libssl-dev libsofia-sip-ua-dev libglib2.0-dev libopus-dev 
+sudo apt install libogg-dev libcurl4-openssl-dev liblua5.3-dev libconfig-dev pkg-config libtool automake
+
+CA私钥
+openssl genrsa -out key.pem 2048
+自签名证书
+openssl req -new -x509 -key key.pem -out cert.pem -days 1095
+
+/opt/janus/bin/janus --debug-level=2
+/opt/janus/bin/janus --debug-level=5 --log-file=$HOME/janus-log --daemon
+/opt/janus/bin/janus --disable-stdout --daemon
+
+sudo apt purge libnice-dev
+sudo apt-get install meson ninja-build
+git clone https://gitlab.freedesktop.org/libnice/libnice
+cd libnice
+meson --prefix=/usr build && ninja -C build && sudo ninja -C build install
+
+git clone https://github.com/meetecho/janus-gateway.git
+git checkout v1.2.0
+sh autogen.sh
+./configure --prefix=/opt/janus --enable-websockets
+make && make install
+
+SSH登录配置
+systemctl restart ssh
+PermitRootLogin yes
+PasswordAuthentication yes
+PubkeyAuthentication yes
+
+Qt安装
+https://download.qt.io/archive/qt/5.14/5.14.2/
+sudo apt install libgl1-mesa-dev
+
+代码统计工具
+sudo apt install cloc
+
+JSON格式化
+装个 JSON Tools 这个插件，然后再：Ctrl(Cmd)+Alt+M 
+
+nm -D hello.so
+U (Undefined，未定义): 未定义的符号是指在给定的对象文件中被引用但在其他对象文件或库中定义的符号，如 __cxa_atexit@GLIBC_2.2.5 和 __gxx_personality_v0@CXXABI_1.3 这样的符号被标记为 U，表明这些函数被程序使用，但不在对象文件本身中定义。它们通常存在于共享库中。
+W (Weak，弱符号): 弱符号类似于全局符号，但优先级较低。当可能存在多个同名符号定义时，常使用弱符号，其中一个应优先于其他。
+V  (全局变量) 表明这些函数被程序使用的全局变量。
+T (Text section，文本段): 标记为 T 的符号位于对象文件的文本段，通常包含可执行代码。在您的输出中，main1 被标记为 T，表明它是在文本段中定义的函数。
+B (BSS section，未初始化数据段): 未初始化的数据。
+D (Data section，数据段): 已初始化的数据。
+R (Read-only data section，只读数据段): 常量和其他只读数据。
+
+查看二进制 readelf  -a  hello.so
+-h, --file-header: 显示 ELF 文件的文件头信息，包括该文件是可执行文件、共享对象文件还是核心转储等。
+-l, --program-headers, --segments: 显示程序头表（也称为段表）。这些信息对于了解如何将程序映射到内存中非常重要。
+-S, --section-headers: 显示节头表信息。这些信息对于了解文件的不同部分（如代码段、数据段等）非常有用。
+-t, --section-details: 显示节的详细信息，包括节的大小和位置。
+-e, --headers: 显示所有头信息，等同于同时使用-h、-l 和 -S。
+
+linux-vdso.so.1：这是一个“虚拟动态共享对象”（Virtual Dynamic Shared Object），它由 Linux 内核提供，用于提高某些系统调用的效率，如获取时间。它不占用磁盘空间，也不出现在磁盘上的文件系统中，而是由内核动态加载。
+libc.so.6：这是 GNU C Library（glibc）的主要动态链接库，几乎所有的 Linux 程序都需要它。它提供了标准 C 库的大部分实现，以及其他基本的系统调用和功能。
+/lib64/ld-linux-x86-64.so.2：这是用于 64 位系统的动态链接器（也称为动态加载器）。它负责加载共享库，解析它们的依赖关系，以及准备程序运行。
+libstdc++.so.6：这是 GNU Standard C++ Library 的动态链接版本。这个库包含了执行使用 C++ 编写的程序所需的标准 C++ 库的实现。它通常是由 GNU 编译器集合（GCC）提供的，并且是编译和运行 C++ 程序的关键组成部分。
+libgcc_s.so.1：这是 GCC 的一个支持库，提供了编译器在生成代码时可能依赖的底层功能。例如，这个库提供了一些处理低级操作的函数，如整数算术溢出的处理等。它通常被 C 和 C++ 程序所使用。
+libm.so.6：这是数学库（math library）的动态链接版本，它实现了 C 标准库中的数学函数。例如，提供了对数、三角函数和其他常见的数学运算。这个库对于需要执行数学计算的程序来说是必需的。
+
+Host ubuntu22.4
+    HostName 192.168.163.141
+    User root
+    IdentityFile  ~/.ssh/id_rsa
+
+go编译静态执行程序
+CGO_ENABLED=0 go build -o quic-client  -ldflags '-extldflags "-static"' main.go 
+
+大文件查找
+du -h / --max-depth=1 | sort -hr | head -n 15
+
+go build -o offline.a -buildmode=c-archive main.go
+go build -o offline.so -buildmode=c-shared main.go
+
+dpkg -l | grep libboost-all-dev
+sudo apt install libmsgpack-dev
+sudo apt install libboost-all-dev
+
+__attribute__((destructor))
+void plugin_Destory() 
+{
+ Iron_man_Destory();
+}
+
+__attribute__((constructor))
+void iron_main()
+{
+}
+
+sudo sysctl -p
+kernel.core_pattern = core
+ulimit -c unlimited 
+
+安装brew的终极方法
+/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+
+应用程序打包
+windeployqt appDraw.exe  --qmldir C:\make\Draw
+
+log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
+intellisense配置
+Verify IntelliSense is Enabled: Go to File > Preferences > Settings (or press Ctrl+), then search for "intellisense"
+Make sure that "C_Cpp: IntelliSense Engine" is set to "Default"
+
+setenv('MW_MINGW64_LOC', 'D:\mingw81');
+mex -setup -v
+mex -setup C++
+
+fmt.Printf("server: %+v\n", server)
+
+5.2.1.9 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDMzMDksImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDEiLCJuYmYiOjE3MzY5MjczMDksInN1YiI6InVzZXJfMDAwMSIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.ipk3yFSY01swwkA6T4hgHTzw7fSeUX0zdxS9qZFH228&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 7886 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+
+5.2.1.9 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDM0NTEsImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDIiLCJuYmYiOjE3MzY5Mjc0NTEsInN1YiI6InVzZXJfMDAwMiIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.skNzwwnFBDS6vIEWBbEJQgPL6rU7CU2gdzfIUbcKhvI&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 13703 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+
+ {"exp":1744703451,"iss":"APIbxDWetqcjHcf","name":"user_0002","nbf":1736927451,"sub":"user_0002","video":{"room":"room_0001","roomJoin":true}}
+
+RTCService ServeHTTP room_0001 {user_0001 user_0001 false RR_UNKNOWN true sdk:JS version:"2.8.0" protocol:15 os:"Windows" os_version:"10" device_model:"Other" browser:"Chrome" browser_version:"132.0.0" address:"5.2.1.9" 0xc0016ba400  true  <nil> false name:"room_0001"} 200 <nil>
+
+专利之星
+https://cprs.patentstar.com.cn/Search/ResultList?CurrentQuery=57uf5L+h6L2v5Lu25oqA5pyv5pyJ6ZmQ5YWs5Y+4L1BF&type=cn
+
+NVIDIA驱动
+https://www.nvidia.cn/Download/Find.aspx?lang=cn
+https://blog.51cto.com/u_4029519/5909904
+
+ubuntu镜像
+https://releases.ubuntu.com/?_ga=2.76908822.2066399570.1704535122-160688002.1704535122
+
+android app
+https://cn.uptodown.com/android/top
+
+编程环境
+https://go.dev/dl/
+https://nodejs.cn/download/
+https://www.python.org/downloads/
+
+工具网
+https://tools.saaser.cn/json2go
+https://www.cogentco.com/
+https://www.xshell.com/zh/free-for-home-school/
+
+视频帧工具
+https://www.elecard.com/
+
+
+
+

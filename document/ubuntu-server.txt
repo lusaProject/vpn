@@ -1,0 +1,119 @@
+sudo vmhgfs-fuse .host:/ /mnt/hgfs -o subtype=vmhgfs-fuse,allow_other
+sudo mkdir -p /mnt/hgfs
+sudo apt install net-tools
+
+PATH=$PATH:/etc/go/bin
+PATH=$PATH:/etc/node/bin
+source ~/.bashrc
+
+x @pengtang155789
+
+PyInstaller 打包
+pip install pyinstaller
+pyinstaller --onefile hello.py
+
+export MEDIASOUP_LISTEN_IP='192.168.163.141'
+export MEDIASOUP_ANNOUNCED_IP='192.168.163.141'
+/etc/nginx/ssl/key.pem       /etc/nginx/ssl/cert.pem
+cargo build --release
+cargo build --package mediasoup --release  --example videoroom
+
+livekit服务
+livekit-server --config livekit.yaml --node-ip=50.18.65.41 --bind 0.0.0.0
+wss://meet.nexatek.net
+
+port: 7880
+rtc:
+    udp_port: 7882
+    tcp_port: 7881
+    use_external_ip: true
+    enable_loopback_candidate: false
+keys:
+    APIbxDWetqcjHcf: RlZfytYLmdMOgV2u6fSFAbMhrYQok9B4aVWq48eIE1cd
+redis:
+    address: 127.0.0.1:6379
+    password: ZyeRVq3RKI9juNkZR6OBZgIW2
+    sentinel_master_name: redis-key
+logging:
+    json: false
+    level: info
+
+lk token create \
+  --api-key APIbxDWetqcjHcf --api-secret RlZfytYLmdMOgV2u6fSFAbMhrYQok9B4aVWq48eIE1cd \
+  --join --room room_0001 --identity user_0002 \
+  --valid-for 2160h
+
+wss://meet.nexatek.net
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDMzMDksImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDEiLCJuYmYiOjE3MzY5MjczMDksInN1YiI6InVzZXJfMDAwMSIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.ipk3yFSY01swwkA6T4hgHTzw7fSeUX0zdxS9qZFH228
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDM0NTEsImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDIiLCJuYmYiOjE3MzY5Mjc0NTEsInN1YiI6InVzZXJfMDAwMiIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.skNzwwnFBDS6vIEWBbEJQgPL6rU7CU2gdzfIUbcKhvI
+
+chrome://webrtc-internals/
+implementation 'org.webrtc:google-webrtc:1.0.+'
+implementation 'org.webrtc:google-webrtc:1.0.32006'
+
+twilio中继配置
+ const iceServer = {
+        "iceServers": [
+            {
+                "url": "stun:stun.l.google.com:19302"
+            },
+            {
+                "url": "stun:global.stun.twilio.com:3478"
+            },
+            {
+                "url": "turn:global.stun.twilio.com:3478",
+                "username": "79fdd6b3c57147c5cc44944344c69d85624b63ec30624b8674ddc67b145e3f3c",
+                "credential": "xjfTOLkVmDtvFDrDKvpacXU7YofAwPg6P6TXKiztVGw"
+            }
+        ]
+};
+
+进程资源
+pidstat -r --human -lh -p 864
+
+守护进程
+[Unit]
+Description=Demo Service
+Documentation=demo
+After=network.target nss-lookup.target redis.service
+Requires=redis.service
+
+[Service]
+ExecStart=/root/chatCode/chatGPT
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
+----------
+/etc/systemd/system/
+
+sudo systemctl daemon-reload
+sudo systemctl enable demo.service
+sudo systemctl start demo.service
+sudo systemctl status demo.service
+journalctl -u demo.service
+
+g4dn.xlarge ---> t3.medium
+
+wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+lsmod | grep bbr    出现 tcp_bbr 即安装成功
+
+sudo apt install ubuntu-drivers-common
+ubuntu-drivers devices
+sudo apt install nvidia-driver-535-open
+
+wsl --install
+rewrite ^/(.*)/(.*)/(.*)/(.*) https://callup.luffa.im/?a=$1&b=$2&c=$3&d=$4 last;
+
+终端代理
+export https_proxy=http://192.168.1.7:10809
+export http_proxy=http://192.168.1.7:10809
+
+npm config set registry https://registry.npmmirror.com/
+npx create-electron-app my-app
+npm install -g cnpm
+cnpm install electron --save-dev
+
+
+
