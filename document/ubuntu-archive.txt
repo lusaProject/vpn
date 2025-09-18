@@ -239,6 +239,8 @@ libstdc++.so.6：这是 GNU Standard C++ Library 的动态链接版本。这个�
 libgcc_s.so.1：这是 GCC 的一个支持库，提供了编译器在生成代码时可能依赖的底层功能。例如，这个库提供了一些处理低级操作的函数，如整数算术溢出的处理等。它通常被 C 和 C++ 程序所使用。
 libm.so.6：这是数学库（math library）的动态链接版本，它实现了 C 标准库中的数学函数。例如，提供了对数、三角函数和其他常见的数学运算。这个库对于需要执行数学计算的程序来说是必需的。
 
+万人迷：https://pan.baidu.com/s/1b72VeX6JRsqAMLoXLNzygA/947840169596b564
+
 Host ubuntu22.4
     HostName 192.168.163.141
     User root
@@ -323,6 +325,7 @@ https://www.xshell.com/zh/free-for-home-school/
 
 视频帧工具
 https://www.elecard.com/
+
 
 
 
