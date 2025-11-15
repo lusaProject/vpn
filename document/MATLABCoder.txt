@@ -1,0 +1,31 @@
+FIR滤波
+codegen  fir1 -args {99, [400 1000]/(44100/2), 'bandpass' , hamming(100), 'scale'}
+codegen  -lang:c++ -config:lib fir1 -args {99, [400 1000]/(44100/2), 'bandpass' , hamming(100), 'scale'} -report
+codegen  -lang:c++ -config:lib fir1 -args {99, [400 1000]/(44100/2)} -report
+codegen  -lang:c++ -config:lib hamming -args {100} -report
+
+动态数组
+codegen myMultiply -args {x}
+function y = myMultiply(a,b)
+coder.varsize('y');
+y = a:b;
+end
+
+函数编写
+function y = bandpassFilter(a, b)
+Fs = 48000;  % Sampling Frequency
+N    = 99;       % Order
+Fc1  = a;     % First Cutoff Frequency
+Fc2  = b;    % Second Cutoff Frequency
+flag = 'scale';  % Sampling Flag
+win = hamming(N+1);
+y  = fir1(N, [Fc1 Fc2]/(Fs/2), 'bandpass', win, flag);
+end
+
+编译工具链
+setenv('MW_MINGW64_LOC', 'D:\mingw81');
+mex -setup -v
+mex -setup C++
+g++ -shared -fPIC -o libexample.so *.cpp -fopenmp
+g++ *.cpp -o demo -fopenmp
+
