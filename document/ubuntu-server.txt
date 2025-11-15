@@ -6,21 +6,23 @@ PATH=$PATH:/etc/go/bin
 PATH=$PATH:/etc/node/bin
 source ~/.bashrc
 
-x @pengtang155789
+X @pengtang155789
 
-PyInstaller 打包
+python 打包
 pip install pyinstaller
 pyinstaller --onefile hello.py
 
+终端代理
+export https_proxy=http://192.168.1.7:10809
+export http_proxy=http://192.168.1.7:10809
 export MEDIASOUP_LISTEN_IP='192.168.163.141'
 export MEDIASOUP_ANNOUNCED_IP='192.168.163.141'
 /etc/nginx/ssl/key.pem       /etc/nginx/ssl/cert.pem
-cargo build --release
 cargo build --package mediasoup --release  --example videoroom
 
 livekit服务
 livekit-server --config livekit.yaml --node-ip=50.18.65.41 --bind 0.0.0.0
-wss://meet.nexatek.net
+wss://note.youdao.com
 
 port: 7880
 rtc:
@@ -43,13 +45,26 @@ lk token create \
   --join --room room_0001 --identity user_0002 \
   --valid-for 2160h
 
-wss://meet.nexatek.net
+wss://note.youdao.com
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDMzMDksImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDEiLCJuYmYiOjE3MzY5MjczMDksInN1YiI6InVzZXJfMDAwMSIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.ipk3yFSY01swwkA6T4hgHTzw7fSeUX0zdxS9qZFH228
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDM0NTEsImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDIiLCJuYmYiOjE3MzY5Mjc0NTEsInN1YiI6InVzZXJfMDAwMiIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.skNzwwnFBDS6vIEWBbEJQgPL6rU7CU2gdzfIUbcKhvI
 
 chrome://webrtc-internals/
 implementation 'org.webrtc:google-webrtc:1.0.+'
 implementation 'org.webrtc:google-webrtc:1.0.32006'
+https://janus.conf.meetecho.com/demos/echotest.html?vcodec=av1&svc=L3T3
+
+ipconfig /flushdns
+https://note.youdao.com/webrtc
+location /ws {
+       proxy_pass http://127.0.0.1:8099;
+    proxy_read_timeout 300s;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real_IP $remote_addr;
+    proxy_set_header X-Forwarded-for $remote_addr;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'Upgrade';
+}
 
 twilio中继配置
  const iceServer = {
@@ -66,10 +81,13 @@ twilio中继配置
                 "credential": "xjfTOLkVmDtvFDrDKvpacXU7YofAwPg6P6TXKiztVGw"
             }
         ]
-};
+    };
 
-进程资源
-pidstat -r --human -lh -p 864
+git clone https://github.com/ossrs/srs.git
+
+./configure && make
+nohup ./objs/srs -c conf/srs.conf &
+nohup ./objs/httpx-static -http 80 -https 443 -ssk /etc/nginx/ssl/_.putplay.cc_key.key -ssc /etc/nginx/ssl/_.putplay.cc_chain.crt -proxy http://127.0.0.1:1989/sig -proxy http://127.0.0.1:1985/rtc -proxy http://127.0.0.1:8080/ &
 
 守护进程
 [Unit]
@@ -89,12 +107,12 @@ WantedBy=multi-user.target
 /etc/systemd/system/
 
 sudo systemctl daemon-reload
-sudo systemctl enable demo.service
-sudo systemctl start demo.service
-sudo systemctl status demo.service
-journalctl -u demo.service
+sudo systemctl enable nexatek.service
+sudo systemctl start nexatek.service
+sudo systemctl status nexatek.service
+journalctl -u nexatek.service
 
-g4dn.xlarge ---> t3.medium
+g4dn.xlarge --- t3.medium
 
 wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 lsmod | grep bbr    出现 tcp_bbr 即安装成功
@@ -102,18 +120,6 @@ lsmod | grep bbr    出现 tcp_bbr 即安装成功
 sudo apt install ubuntu-drivers-common
 ubuntu-drivers devices
 sudo apt install nvidia-driver-535-open
-
-wsl --install
-rewrite ^/(.*)/(.*)/(.*)/(.*) https://callup.luffa.im/?a=$1&b=$2&c=$3&d=$4 last;
-
-终端代理
-export https_proxy=http://192.168.1.7:10809
-export http_proxy=http://192.168.1.7:10809
-
-npm config set registry https://registry.npmmirror.com/
-npx create-electron-app my-app
-npm install -g cnpm
-cnpm install electron --save-dev
 
 
 
