@@ -1,0 +1,279 @@
+git clone https://github.com/matrix-org/dendrite
+go build -o bin/ ./cmd/...
+./bin/generate-keys --private-key matrix_key.pem
+./bin/generate-keys --tls-cert server.crt --tls-key server.key
+cp dendrite-sample.yaml dendrite.yaml
+./bin/dendrite  --config dendrite.yaml
+
+\l 列出所有数据库。
+\c mydatabase 连接到指定的数据库。
+\dt 显示当前数据库中的所有表。
+\d table_name 显示指定表的详细信息。
+
+sudo apt install postgresql
+sudo -u postgres psql
+CREATE DATABASE mydatabase;
+DROP DATABASE mydatabase;
+CREATE USER myuser WITH ENCRYPTED PASSWORD '135246';
+GRANT ALL PRIVILEGES ON DATABASE mydatabase TO myuser;
+connection_string: postgresql://myuser:135246@localhost/mydatabase?sslmode=disable
+DROP TABLE public.events;
+
+ALTER USER postgres PASSWORD '135246';
+sudo systemctl restart postgresql
+
+connection_string: postgresql://postgres:135246@localhost/postgres?sslmode=disable
+nohup ./bin/dendrite  --config dendrite.yaml -http-bind-address 127.0.0.1:8008 -really-enable-open-registration &
+./bin/create-account -config dendrite.yaml -username henry 
+
+citus集群
+curl https://install.citusdata.com/community/deb.sh | sudo bash
+sudo apt install postgresql-14-citus-12.1
+
+sudo vim /etc/postgresql/14/main/postgresql.conf
+listen_addresses = '*'
+shared_preload_libraries = 'citus'
+
+sudo vim /etc/postgresql/14/main/pg_hba.conf
+host    all             all             0.0.0.0/0               trust
+
+sudo systemctl restart postgresql
+sudo -i -u postgres psql -c "CREATE EXTENSION citus;"
+
+sudo -i -u postgres psql
+SELECT citus_set_coordinator_host('192.168.163.141', 5432);
+
+SELECT citus_add_node('192.168.163.142', 5432);
+SELECT citus_add_node('192.168.163.143', 5432);
+
+SELECT master_remove_node('192.168.163.143', 5432);
+SELECT undistribute_table('public.events');
+
+SELECT rebalance_table_shards();
+SELECT * FROM citus_get_active_worker_nodes();
+
+CREATE TABLE events (
+  device_id bigint,
+  event_id bigserial,
+  event_time timestamptz default now(),
+  data jsonb not null,
+  PRIMARY KEY (device_id, event_id)
+);
+
+SELECT create_distributed_table('events', 'device_id');
+
+INSERT INTO events (device_id, data)
+SELECT s % 100, ('{"measurement":'||random()||'}')::jsonb FROM generate_series(1,2) s;
+
+SELECT * FROM events;
+DROP TABLE public.events;
+DROP SEQUENCE public.events_event_id_seq;
+
+集群部署
+sudo apt install python3-pip
+pip  install psycopg2-binary
+pip install patroni[etcd]
+sudo apt install etcd
+systemctl disable postgresql
+
+PATH=$PATH:/usr/lib/postgresql/14/bin
+source ~/.bashrc
+
+主节点配置
+host replication replicator 192.168.163.142/32 trust
+host replication replicator 192.168.163.143/32 trust
+
+sudo vim /etc/default/etcd
+ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379"
+ETCD_LISTEN_PEER_URLS="http://0.0.0.0:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"
+sudo systemctl restart etcd
+
+sudo apt install haproxy
+sudo vim /etc/haproxy/haproxy.cfg
+sudo systemctl restart haproxy
+sudo haproxy -f /etc/haproxy/haproxy.cfg -d
+
+patronictl -c config.yml list
+patronictl -c config.yml switchover
+patronictl -c config.yml failover
+
+patronictl -c config.yml pause
+patronictl -c config.yml resume
+patronictl -c config.yml reload
+
+SELECT * FROM pg_replication_slots;
+psql -h 192.168.163.141 -p 5432 -U postgres -d postgres
+psql -h 192.168.163.141 -p 5433 -U postgres -d postgres
+    superuser:
+      username: postgres
+      password: secret
+
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    user haproxy
+    group haproxy
+    maxconn 4000
+    daemon
+
+defaults
+    log global
+    mode tcp
+    timeout connect 10s
+    timeout client 30s
+    timeout server 30s
+    retries 3
+
+frontend postgres_front
+    bind *:5433
+    default_backend postgres_back
+
+backend postgres_back
+    mode tcp
+    balance leastconn
+    option tcp-check
+    tcp-check connect port 5432
+
+    server node1 192.168.163.141:5432 check fall 3 rise 2 inter 2000 maxconn 100 weight 100
+    #server node2 192.168.163.142:5432 check fall 3 rise 2 inter 2000 maxconn 50 weight 50
+    #server node3 192.168.163.143:5432 check fall 3 rise 2 inter 2000 maxconn 50 weight 50
+
+frontend stats_front
+    bind *:8000
+    mode http
+    stats enable
+    stats uri /haproxy_stats
+    stats realm Haproxy\ Statistics
+    stats auth admin:admin
+
+scope: postgres
+namespace: /db/
+name: node1
+
+restapi:
+  listen: 0.0.0.0:8008
+  connect_address: 192.168.163.141:8008
+
+etcd:
+  host: 192.168.163.141:2379
+
+bootstrap:
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 5
+    maximum_lag_on_failover: 1048576
+  initdb:
+    - encoding: UTF8
+    - data-checksums
+  pg_hba:
+    - host replication replicator 127.0.0.1/32 md5
+    - host all all 0.0.0.0/0 md5
+  users:
+    admin:
+      password: admin
+      options:
+        - createrole
+        - createdb
+
+postgresql:
+  listen: 0.0.0.0:5432
+  connect_address: 192.168.163.141:5432
+  data_dir: /home/mason/data/pgdata
+  pgpass: /home/mason/tmp/pgpass
+  authentication:
+    replication:
+      username: replicator
+      password: secret
+    superuser:
+      username: postgres
+      password: secret
+  parameters:
+    unix_socket_directories: '.'
+
+scope: postgres
+namespace: /db/
+name: node2
+restapi:
+listen: 0.0.0.0:8008
+connect_address: 192.168.163.142:8008
+etcd:
+host: 192.168.163.141:2379
+bootstrap:
+dcs:
+ttl: 30
+loop_wait: 10
+retry_timeout: 5
+maximum_lag_on_failover: 1048576
+initdb:
+- encoding: UTF8
+- data-checksums
+pg_hba:
+- host replication replicator 127.0.0.1/32 md5
+- host all all 0.0.0.0/0 md5
+users:
+admin:
+password: admin
+options:
+- createrole
+- createdb
+postgresql:
+listen: 0.0.0.0:5432
+connect_address: 192.168.163.142:5432
+data_dir: /home/mason/data/pgdata
+pgpass: /home/mason/tmp/pgpass
+authentication:
+replication:
+username: replicator
+password: secret
+superuser:
+username: postgres
+password: secret
+parameters:
+unix_socket_directories: '.'
+
+scope: postgres
+namespace: /db/
+name: node3
+
+restapi:
+  listen: 0.0.0.0:8008
+  connect_address: 192.168.163.143:8008
+
+etcd:
+  host: 192.168.163.141:2379
+
+bootstrap:
+  dcs:
+    ttl: 30
+    loop_wait: 10
+    retry_timeout: 5
+    maximum_lag_on_failover: 1048576
+  initdb:
+    - encoding: UTF8
+    - data-checksums
+  pg_hba:
+    - host replication replicator 127.0.0.1/32 md5
+    - host all all 0.0.0.0/0 md5
+  users:
+    admin:
+      password: admin
+      options:
+        - createrole
+        - createdb
+
+postgresql:
+  listen: 0.0.0.0:5432
+  connect_address: 192.168.163.143:5432
+  data_dir: /home/mason/data/pgdata
+  pgpass: /home/mason/tmp/pgpass
+  authentication:
+    replication:
+      username: replicator
+      password: secret
+    superuser:
+      username: postgres
+      password: secret
+  parameters:
+    unix_socket_directories: '.'
