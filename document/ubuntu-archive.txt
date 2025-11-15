@@ -1,18 +1,23 @@
-requirepass "xxx"
+requirepass "ZyeRVq3RKI9juNk"
 bind 0.0.0.0
 sudo systemctl restart redis
 
 设置时区
 timedatectl list-timezones | grep Shanghai
+Asia/Shanghai
+
 timedatectl set-timezone Asia/Shanghai
+
+科学上网
+https:/download.nexatek.net/V2Ray
+curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
 
 扩展EBS卷的文件系统
 sudo lsblk
 sudo growpart /dev/nvme0n1 1
 sudo resize2fs /dev/nvme0n1p1
 
-Linux版本查看
-cat /proc/version
+nginx命令
 sudo nginx -s reload
 sudo service nginx restart
 chmod 755 -R /root/
@@ -21,15 +26,15 @@ chmod 755 -R /root/
 sudo apt install coturn
 sudo apt purge coturn
 sudo nohup turnserver ‐L 0.0.0.0 ‐a ‐u mason:123456 ‐v ‐f ‐r nort.gov &
-sudo nohup turnserver ‐L 0.0.0.0 ‐a ‐u mason:123456 ‐v ‐f ‐r nort.gov -X 5.2.1.9/172.31.12.185 &
+sudo nohup turnserver ‐L 0.0.0.0 ‐a ‐u mason:123456 ‐v ‐f ‐r nort.gov -X 54.241.149.95/172.31.12.185 &
 
 测试指定端口开放
-nc -zv 5.2.1.9 3478
-Connection to 5.2.1.9 3478 port [tcp/*] succeeded!
+nc -zv 50.18.65.41 3478
+Connection to 50.18.65.41 3478 port [tcp/*] succeeded!
 
 深度链接
-https://luffa.putdev.com/apple-app-site-association
-https://luffa.putdev.com/.well-known/assetlinks.json
+https://note.youdao.com/apple-app-site-association
+https://note.youdao.com/.well-known/assetlinks.json
 
 go编译库
 go build -o  ./libs/offline.so -buildmode=c-shared main.go
@@ -43,7 +48,7 @@ CREATE DATABASE rtc_room_server;
 CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON rtc_room_server.* TO 'new_user'@'localhost';
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'xxx';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '159357';
 mysql> UNINSTALL COMPONENT 'file://component_validate_password';
 SOURCE /root/roomserver/bin/rtc_room_server.sql
 
@@ -55,6 +60,8 @@ cmake ..  -DANDROID_NDK=/home/lusa/Android/android-ndk-r22  -DANDROID_ABI=arm64-
 libsnappy.so: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=9424383d4ad0c3e2dcca75f9a0e534c9690c2899, with debug_info, not stripped
 libsnappy.so: ELF 32-bit LSB shared object, ARM, EABI5 version 1 (SYSV), dynamically linked, BuildID[sha1]=9e3b5846d48d42049f5174c17818c787a766648a, with debug_info, not stripped
 __android_log_print(ANDROID_LOG_INFO, "BitmapInfo", "Width: %d", width);
+
+86415898  Next1-6!
 
 nginx证书安装
 sudo apt-get install certbot python3-certbot-nginx
@@ -83,7 +90,6 @@ ffmpeg -i 1280x720.flv -c:v libx264 -preset slow -b:v 5M output.mp4
 ffmpeg -i 1280x720.flv -c:v h264_nvenc -preset slow -b:v 5M output.mp4
 ffmpeg -hwaccel cuda -i 1280x720.flv -f flv -preset slow -b:v 5M output.mp4
 ffmpeg -hwaccel cuda -i 1280x720.flv -c:v h264_nvenc -preset slow -b:v 5M output.mp4
-
 
 ffmpeg -loop 1 -i image.png -vf "zoompan=z='min(zoom+0.0005,1.5)':d=125" -c:v libx264 -t 10 -pix_fmt yuv420p output.mp4
 
@@ -128,7 +134,6 @@ ffplay -rtsp_transport tcp rtsp://50.18.65.41/record/live/test/2024-08-21/16-25-
 ffmpeg -i rtmp://192.168.50.203:1935/live/avc_720p -c copy -f flv rtmp://demo1.boschtech.cn/live/avc_720p
 ffmpeg -f gdigrab -i desktop -rtbufsize 2048M -framerate 30 -pixel_format yuv420p -vcodec libx264 -s 1280x720 -g 60 -keyint_min 60 -sc_threshold 0 -f flv rtmp://18.162.153.201/live/livestreamMason
 
-
 编码信息
 ffprobe INPUT：这是最基本的命令，用于查看媒体文件的基本信息，如格式、时长、码率等。
 
@@ -172,6 +177,7 @@ C:\Program Files\Java\jdk-17
 javac -version
 
 Janus服务器搭建
+https://chat.nexatek.net/janus/
 sudo apt install ifstat
 sudo apt install rename
 rename 's/.sample$//' *.sample
@@ -210,12 +216,6 @@ Qt安装
 https://download.qt.io/archive/qt/5.14/5.14.2/
 sudo apt install libgl1-mesa-dev
 
-代码统计工具
-sudo apt install cloc
-
-JSON格式化
-装个 JSON Tools 这个插件，然后再：Ctrl(Cmd)+Alt+M 
-
 nm -D hello.so
 U (Undefined，未定义): 未定义的符号是指在给定的对象文件中被引用但在其他对象文件或库中定义的符号，如 __cxa_atexit@GLIBC_2.2.5 和 __gxx_personality_v0@CXXABI_1.3 这样的符号被标记为 U，表明这些函数被程序使用，但不在对象文件本身中定义。它们通常存在于共享库中。
 W (Weak，弱符号): 弱符号类似于全局符号，但优先级较低。当可能存在多个同名符号定义时，常使用弱符号，其中一个应优先于其他。
@@ -239,8 +239,6 @@ libstdc++.so.6：这是 GNU Standard C++ Library 的动态链接版本。这个�
 libgcc_s.so.1：这是 GCC 的一个支持库，提供了编译器在生成代码时可能依赖的底层功能。例如，这个库提供了一些处理低级操作的函数，如整数算术溢出的处理等。它通常被 C 和 C++ 程序所使用。
 libm.so.6：这是数学库（math library）的动态链接版本，它实现了 C 标准库中的数学函数。例如，提供了对数、三角函数和其他常见的数学运算。这个库对于需要执行数学计算的程序来说是必需的。
 
-万人迷：https://pan.baidu.com/s/1b72VeX6JRsqAMLoXLNzygA/947840169596b564
-
 Host ubuntu22.4
     HostName 192.168.163.141
     User root
@@ -248,6 +246,7 @@ Host ubuntu22.4
 
 go编译静态执行程序
 CGO_ENABLED=0 go build -o quic-client  -ldflags '-extldflags "-static"' main.go 
+
 
 大文件查找
 du -h / --max-depth=1 | sort -hr | head -n 15
@@ -259,16 +258,7 @@ dpkg -l | grep libboost-all-dev
 sudo apt install libmsgpack-dev
 sudo apt install libboost-all-dev
 
-__attribute__((destructor))
-void plugin_Destory() 
-{
- Iron_man_Destory();
-}
-
-__attribute__((constructor))
-void iron_main()
-{
-}
+sudo lshw -c network && sudo ip link set ens33 up && sudo ifconfig ens33 up && sudo dhclient ens33
 
 sudo sysctl -p
 kernel.core_pattern = core
@@ -280,53 +270,46 @@ ulimit -c unlimited
 应用程序打包
 windeployqt appDraw.exe  --qmldir C:\make\Draw
 
+日志定位
 log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
+双重身份验证
+6fda5-00baa 5c9fa-10acf 998b0-288c8 2bb6a-1114d 4ae72-61e8b 9ca89-6fe7e 98c4e-fb045 da268-0eda7
 
 intellisense配置
 Verify IntelliSense is Enabled: Go to File > Preferences > Settings (or press Ctrl+), then search for "intellisense"
-Make sure that "C_Cpp: IntelliSense Engine" is set to "Default"
-
-setenv('MW_MINGW64_LOC', 'D:\mingw81');
-mex -setup -v
-mex -setup C++
+ Make sure that "C_Cpp: IntelliSense Engine" is set to "Default"
 
 fmt.Printf("server: %+v\n", server)
+182.150.28.2 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDMzMDksImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDEiLCJuYmYiOjE3MzY5MjczMDksInN1YiI6InVzZXJfMDAwMSIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.ipk3yFSY01swwkA6T4hgHTzw7fSeUX0zdxS9qZFH228&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 7886 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 
-5.2.1.9 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDMzMDksImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDEiLCJuYmYiOjE3MzY5MjczMDksInN1YiI6InVzZXJfMDAwMSIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.ipk3yFSY01swwkA6T4hgHTzw7fSeUX0zdxS9qZFH228&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 7886 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
-
-5.2.1.9 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDM0NTEsImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDIiLCJuYmYiOjE3MzY5Mjc0NTEsInN1YiI6InVzZXJfMDAwMiIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.skNzwwnFBDS6vIEWBbEJQgPL6rU7CU2gdzfIUbcKhvI&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 13703 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
+182.150.28.2 - - [17/Jan/2025:15:59:50 +0800] "GET /rtc?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDQ3MDM0NTEsImlzcyI6IkFQSWJ4RFdldHFjakhjZiIsIm5hbWUiOiJ1c2VyXzAwMDIiLCJuYmYiOjE3MzY5Mjc0NTEsInN1YiI6InVzZXJfMDAwMiIsInZpZGVvIjp7InJvb20iOiJyb29tXzAwMDEiLCJyb29tSm9pbiI6dHJ1ZX19.skNzwwnFBDS6vIEWBbEJQgPL6rU7CU2gdzfIUbcKhvI&auto_subscribe=1&sdk=js&version=2.8.0&protocol=15&adaptive_stream=1 HTTP/1.1" 101 13703 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36"
 
  {"exp":1744703451,"iss":"APIbxDWetqcjHcf","name":"user_0002","nbf":1736927451,"sub":"user_0002","video":{"room":"room_0001","roomJoin":true}}
 
-RTCService ServeHTTP room_0001 {user_0001 user_0001 false RR_UNKNOWN true sdk:JS version:"2.8.0" protocol:15 os:"Windows" os_version:"10" device_model:"Other" browser:"Chrome" browser_version:"132.0.0" address:"5.2.1.9" 0xc0016ba400  true  <nil> false name:"room_0001"} 200 <nil>
+RTCService ServeHTTP room_0001 {user_0001 user_0001 false RR_UNKNOWN true sdk:JS version:"2.8.0" protocol:15 os:"Windows" os_version:"10" device_model:"Other" browser:"Chrome" browser_version:"132.0.0" address:"182.150.28.2" 0xc0016ba400  true  <nil> false name:"room_0001"} 200 <nil>
 
-专利之星
-https://cprs.patentstar.com.cn/Search/ResultList?CurrentQuery=57uf5L+h6L2v5Lu25oqA5pyv5pyJ6ZmQ5YWs5Y+4L1BF&type=cn
+Qt上游补丁提交
+project:qt/qtbase
+git push origin HEAD:refs/for/dev 
+git clone "ssh://tangpeng@codereview.qt-project.org:29418/qt/qtbase" && scp -p -P 29418 tangpeng@codereview.qt-project.org:hooks/commit-msg "qtbase/.git/hooks/"
 
-NVIDIA驱动
-https://www.nvidia.cn/Download/Find.aspx?lang=cn
-https://blog.51cto.com/u_4029519/5909904
+conda虚拟环境安装
+wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-ubuntu镜像
-https://releases.ubuntu.com/?_ga=2.76908822.2066399570.1704535122-160688002.1704535122
+conda env list
+conda remove --name mediapipe --all
+conda create -n mediapipe
+ python=3.12 
+conda activate mediapipe
+conda deactivate
 
-android app
-https://cn.uptodown.com/android/top
+sudo adduser huggingface 
+sudo userdel -r facefusion
+sudo usermod -aG sudo huggingface
+su - huggingface
 
-编程环境
-https://go.dev/dl/
-https://nodejs.cn/download/
-https://www.python.org/downloads/
-
-工具网
-https://tools.saaser.cn/json2go
-https://www.cogentco.com/
-https://www.xshell.com/zh/free-for-home-school/
-
-视频帧工具
-https://www.elecard.com/
-
-
-
-
-
+conda activate sadtalker
+python inference.py 
+                   
+                                     
