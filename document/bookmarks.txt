@@ -22,4 +22,4 @@ https://www.python.org/downloads/
 工具网
 https://tools.saaser.cn/json2go
 https://www.cogentco.com/
-https://www.xshell.com/zh/free-for-home-school/
+https://www.nodemedia.cn/demo/
