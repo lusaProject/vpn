@@ -2,7 +2,7 @@ Nginx 配置示例
 
 1. 安装 V2Ray
 ```bash
-bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+https://github.com/v2fly/fhs-install-v2ray
 ```
 
 2. V2Ray 配置（WebSocket 方式）
@@ -13,13 +13,13 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
 {
   "inbounds": [
     {
-      "port": 10000,
+      "port": 0000,
       "listen": "127.0.0.1",
       "protocol": "vmess",
       "settings": {
         "clients": [
           {
-            "id": "faef4e76-6e0e-4d6c-aea0-f8dfaf9456d9",
+            "id": "0000-0000-0000-0000",
             "alterId": 0
           }
         ]
@@ -27,7 +27,7 @@ bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/
       "streamSettings": {
         "network": "ws",
         "wsSettings": {
-          "path": "/login"
+          "path": "/xxx"
         }
       }
     }
