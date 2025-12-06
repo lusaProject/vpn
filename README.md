@@ -13,7 +13,7 @@ https://github.com/v2fly/fhs-install-v2ray
 {
   "inbounds": [
     {
-      "port": 0000,
+      "port": 1111,
       "listen": "127.0.0.1",
       "protocol": "vmess",
       "settings": {
