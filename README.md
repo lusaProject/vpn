@@ -3,6 +3,7 @@ Nginx 配置示例
 1. 安装 V2Ray
 ```bash
 https://github.com/v2fly/fhs-install-v2ray
+https://github.com/v2fly/v2ray-core/releases
 ```
 
 2. V2Ray 配置（WebSocket 方式）
