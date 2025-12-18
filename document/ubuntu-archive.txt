@@ -276,6 +276,8 @@ log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 双重身份验证
 6fda5-00baa 5c9fa-10acf 998b0-288c8 2bb6a-1114d 4ae72-61e8b 9ca89-6fe7e 98c4e-fb045 da268-0eda7
 
+邀请码[947840169596b564]
+
 intellisense配置
 Verify IntelliSense is Enabled: Go to File > Preferences > Settings (or press Ctrl+), then search for "intellisense"
  Make sure that "C_Cpp: IntelliSense Engine" is set to "Default"
@@ -313,3 +315,4 @@ conda activate sadtalker
 python inference.py 
                    
                                      
+
