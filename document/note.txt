@@ -1,0 +1,54 @@
+git config --global user.name "mason"
+git config --global user.email "mason@gmail.com"
+
+mklink /d "C:\Users\tangpeng\.lmstudio" "E:\Program Files\LLM_Models"
+
+sha256sum Qwen3.5-27B
+
+chrome://webrtc-internals/
+
+./redis-server.exe redis.windows.conf
+
+C:\users\tangpeng\appdata\local\temp\
+
+docker run -it --name lusa -p 2222:22 ubuntu:24.1
+
+docker commit 79c73b1635aa ubuntu:24.1
+
+docker save -o ubuntu.24.1.tar ubuntu:24.1
+
+ffmpeg -i 123.flv -ss 00:00:00 -t 00:05:00 -c copy output.mp4
+
+ffmpeg -re -i sample.mp4 -c:v copy -c:a copy -f flv rtmp://172.20.173.132/live/test
+
+ffmpeg -re -i EP45.mkv -c:v copy -c:a copy -f flv rtmp://172.20.173.132/live/test
+
+ffplay http://172.20.173.132/live/test.live.flv
+
+ffplay -rtsp_transport tcp rtsp://172.20.173.132/live/test
+
+ffplay http://172.20.173.132/live/test/hls.m3u8
+
+git clone https://github.com/emscripten-core/emsdk.git
+
+ffplay -rtsp_transport tcp rtsp://172.20.173.132/live/camera1
+
+rtsp://127.0.0.1/record/EP45x.mp4
+
+rtsp://127.0.0.1/record/samplex.mp4
+
+ffprobe -v error -select_streams v:0 -skip_frame nokey -show_entries \
+ frame=best_effort_timestamp_time,coded_picture_number,pict_type -of csv=p=0 samplex.mp4
+
+ffprobe -v error -select_streams v:0 -show_entries stream=r_frame_rate,avg_frame_rate  \
+ -of default=noprint_wrappers=1 samplex.mp4
+
+ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i EP45.mkv -c:v h264_nvenc  \
+ -preset p5 -tune hq   -rc vbr -cq 23 -b:v 0   -g 30 -forced-idr 1   -c:a aac   -movflags +faststart   output_seek.mp4
+
+ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i sample.mp4 -c:v hevc_nvenc \
+  -preset p5 -tune hq   -rc vbr -cq 23 -b:v 0   -g 30 -forced-idr 1   -c:a aac   -movflags +faststart   output_seek_h265.mp4
+
+go run . -addr :8080 -zlm http://127.0.0.1:18080 -tls-cert certs/dev.crt -tls-key certs/dev.key
+
+
