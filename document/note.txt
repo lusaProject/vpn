@@ -51,4 +51,93 @@ ffmpeg -hwaccel cuda -hwaccel_output_format cuda -i sample.mp4 -c:v hevc_nvenc \
 
 go run . -addr :8080 -zlm http://127.0.0.1:18080 -tls-cert certs/dev.crt -tls-key certs/dev.key
 
+requirepass "ZyeRVq3RKI9juNk"
+bind 0.0.0.0
+sudo systemctl restart redis
+
+设置时区
+timedatectl list-timezones | grep Shanghai
+Asia/Shanghai
+timedatectl set-timezone Asia/Shanghai
+
+扩展EBS卷的文件系统
+sudo lsblk
+sudo growpart /dev/nvme0n1 1
+sudo resize2fs /dev/nvme0n1p1
+
+nginx命令
+sudo nginx -s reload
+sudo service nginx restart
+chmod 755 -R /root/
+
+mysql操作
+sudo apt install mysql-server
+sudo systemctl status mysql
+mysql -u root -p
+CREATE DATABASE rtc_room_server;
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON rtc_room_server.* TO 'new_user'@'localhost';
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '159357';
+mysql> UNINSTALL COMPONENT 'file://component_validate_password';
+SOURCE /root/roomserver/bin/rtc_room_server.sql
+
+android-ndk编译
+export ANDROID_NDK_HOME=/home/lusa/Android/android-ndk-r22
+export PATH=$ANDROID_NDK_HOME:$PATH
+cmake ..  -DANDROID_NDK=/home/lusa/Android/android-ndk-r22  -DANDROID_ABI=armeabi-v7a -DCMAKE_TOOLCHAIN_FILE=/home/lusa/Android/android-ndk-r22/build/cmake/android.toolchain.cmake
+cmake ..  -DANDROID_NDK=/home/lusa/Android/android-ndk-r22  -DANDROID_ABI=arm64-v8a -DCMAKE_TOOLCHAIN_FILE=/home/lusa/Android/android-ndk-r22/build/cmake/android.toolchain.cmake
+
+86415898  Next1-6!
+
+PATH=$PATH:/etc/go/bin
+PATH=$PATH:/etc/node/bin
+source ~/.bashrc
+
+X @pengtang155789
+
+g4dn.xlarge --- t3.medium
+
+nginx证书安装
+sudo apt-get install certbot python3-certbot-nginx
+sudo certbot --nginx
+sudo certbot renew --dry-run
+sudo certbot certificates
+
+定时任务
+crontab -e
+0 0 * * * cp -rf /var/lib/redis/dump.rdb /etc/redis/
+cp dump.rdb /var/lib/redis
+crontab -l
+
+SSH登录配置
+systemctl restart ssh
+PermitRootLogin yes
+PasswordAuthentication yes
+PubkeyAuthentication yes
+
+Host ubuntu22.4
+    HostName 192.168.163.141
+    User root
+    IdentityFile  ~/.ssh/id_rsa
+
+大文件查找
+du -h / --max-depth=1 | sort -hr | head -n 15
+
+sudo sysctl -p
+kernel.core_pattern = core
+ulimit -c unlimited 
+
+日志定位
+log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
+双重身份验证
+6fda5-00baa 5c9fa-10acf 998b0-288c8 2bb6a-1114d 4ae72-61e8b 9ca89-6fe7e 98c4e-fb045 da268-0eda7
+
+intellisense配置
+Verify IntelliSense is Enabled: Go to File > Preferences > Settings (or press Ctrl+), then search for "intellisense"
+ Make sure that "C_Cpp: IntelliSense Engine" is set to "Default"
+
+conda虚拟环境安装
+wget -c https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
